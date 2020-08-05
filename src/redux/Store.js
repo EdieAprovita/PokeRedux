@@ -1,34 +1,18 @@
-import axios from 'axios';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
-//const
-const dataInit = {
-  pokemons: [],
-};
+import pokeReducer from './pokeDucks';
 
-const GET_POKEMON_SUCCESS = 'GET_POKEMON_SUCCESS';
+const rootReducer = combineReducers({
+  pokemons: pokeReducer,
+});
 
-//reducer
-export default function pokeReducer(state = dataInit, action) {
-  switch (action.type) {
-    case GET_POKEMON_SUCCESS:
-      return { ...state, pokemons: action.payload };
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-    default:
-      return state;
-  }
+export default function generateStore() {
+  const store = createStore(
+    rootReducer,
+    combineReducers(applyMiddleware(thunk))
+  );
+  return store;
 }
-
-//actions
-export const getPokemonAction = () => async (dispatch, getState) => {
-  try {
-    const res = await axios.get(
-      'https://pokeapi.co/api/v2/pokemon?offset=0&limit=20'
-    );
-    dispatch({
-      type: GET_POKEMON_SUCCESS,
-      payload: res.data.results,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
