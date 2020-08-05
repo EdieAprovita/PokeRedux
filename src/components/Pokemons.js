@@ -10,7 +10,7 @@ const Pokemons = () => {
   return (
     <div>
       <h1>Pokemons!</h1>
-      <button onClick={() => dispatch(getPokemonAction())}>Get</button>
+      <button onClick={() => dispatch(getPokemonAction())}>Get Pokemons</button>
       <ul>
         {pokemons.map((item) => (
           <li key={item.name}>{item.name}</li>
