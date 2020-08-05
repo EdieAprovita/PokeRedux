@@ -1,7 +1,16 @@
 import React from 'react';
+import Pokemons from './components/Pokemons';
+
+import { Provider } from 'react-redux';
+import generateStore from './redux/Store';
 
 function App() {
-  return <div className='App'>Hola mundo</div>;
+  const store = generateStore();
+  return (
+    <Provider store={store}>
+      <Pokemons />
+    </Provider>
+  );
 }
 
 export default App;
